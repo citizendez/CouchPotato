@@ -39,13 +39,16 @@ def home():
     return 'tacocat'
 
 
-@app.route("/api/mongodata")
+@app.route("/api/look_up_data")
 def mongodata():
     client = pymongo.MongoClient(mongoConn)
 
     db = client.shows_db
     collection = db.items
-    return 'mongo'
+    results = collection.find({}, {'_id': False})
+    coll_df = pd.DataFrame(results)
+    coll_json = coll_df.to_json(orient='records')
+    return coll_json
 
 @app.route("/api/data")
 def list_results():
