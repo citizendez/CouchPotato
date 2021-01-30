@@ -39,7 +39,7 @@ def home():
     return 'tacocat'
 
 
-@app.route("/api/look_up_data")
+@app.route("/api/lookup")
 def mongodata():
     client = pymongo.MongoClient(mongoConn)
 
