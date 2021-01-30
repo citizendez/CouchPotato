@@ -31,6 +31,10 @@ pymysql.install_as_MySQLdb()
 
 engine = create_engine(f"mysql://{remote_db_user}:{remote_db_pwd}@{remote_db_endpoint}:{remote_db_port}/{remote_db_name}")
 
+@app.route("/")
+def home():
+    return 'tacocat'
+
 @app.route("/api/data")
 def list_results():
     conn = engine.connect()
@@ -56,4 +60,4 @@ def list_results():
 
 # run the app in debug mode
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
