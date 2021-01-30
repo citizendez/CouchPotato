@@ -2,7 +2,7 @@
 import json
 import pandas as pd
 import pymysql
-
+import pymongo
 import sqlalchemy
 from sqlalchemy import create_engine
 
@@ -20,6 +20,7 @@ app = Flask(__name__)
 if is_heroku == True:
     # if IS_HEROKU is found in the environment variables, then use the rest
     # NOTE: you still need to set up the IS_HEROKU environment variable on Heroku (it is not there by default)
+    mongoConn = os.environ.get('mongoConn')
     remote_db_endpoint = os.environ.get('remote_db_endpoint')
     remote_db_port = os.environ.get('remote_db_port')
     remote_db_name = os.environ.get('remote_db_name')
@@ -27,7 +28,7 @@ if is_heroku == True:
     remote_db_pwd = os.environ.get('remote_db_pwd')
 else:
     # use the config.py file if IS_HEROKU is not detected
-    from config import remote_db_endpoint, remote_db_port, remote_db_name, remote_db_user, remote_db_pwd
+    from config import mongoConn, remote_db_endpoint, remote_db_port, remote_db_name, remote_db_user, remote_db_pwd
 
 pymysql.install_as_MySQLdb()
 
@@ -36,6 +37,15 @@ engine = create_engine(f"mysql://{remote_db_user}:{remote_db_pwd}@{remote_db_end
 @app.route("/")
 def home():
     return 'tacocat'
+
+
+@app.route("/api/mongodata")
+def mongodata():
+    client = pymongo.MongoClient(mongoConn)
+
+    db = client.shows_db
+    collection = db.items
+    return 'mongo'
 
 @app.route("/api/data")
 def list_results():
