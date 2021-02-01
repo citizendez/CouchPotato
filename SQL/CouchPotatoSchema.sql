@@ -8,10 +8,12 @@ CREATE TABLE IF NOT EXISTS gwsis.streamingservices (
   Popular INT(10) DEFAULT 0,
   PRIMARY KEY (Service_ID));
    
-DROP TABLE IF EXISTS gwsis.streamingservices ; 
+DROP TABLE IF EXISTS gwsis.serviceselection; 
 CREATE TABLE IF NOT EXISTS gwsis.serviceselection (
   SRV_Selection_ID INT(11) AUTO_INCREMENT,
+  Title_Searched VARCHAR (100),
   Select_Date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  Usuer_ID INT(10),
   Service_ID INT(50),
   PRIMARY KEY (SRV_Selection_ID)
   )
